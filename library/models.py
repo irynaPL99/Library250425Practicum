@@ -43,6 +43,14 @@ class Book(models.Model):
         blank=True, null=True, verbose_name="Страницы"
     )
     genre = models.CharField(max_length=50, choices=GENRE_CHOICES, default='BIOGRAPHY')
+    publisher = models.ForeignKey("Publisher", on_delete=models.SET_NULL, null=True, related_name="books" )
 
     def __str__(self):
         return f"{self.title} --{self.author.last_name if self.author else 'NONAME'}"
+
+
+class Publisher(models.Model):
+    name = models.CharField(max_length=100, help_text="Name of the Publisher", verbose_name="Издательство")
+    address = models.CharField(max_length=255, null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    country = models.CharField(max_length=100)
